@@ -89,7 +89,8 @@ export default {
     };
   },
   mounted() {
-    this.$store.dispatch("categoryList");
+    // 对于基本不变的数据，为了减少请求次数，进行优化，放在app.vue请求数据
+    // this.$store.dispatch("categoryList");
 
     if (this.$route.path !== "/home") {
       this.show = false;
