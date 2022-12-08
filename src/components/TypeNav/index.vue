@@ -3,45 +3,64 @@
     <!-- 商品分类导航 -->
     <div class="type-nav">
       <div class="container">
-        <div @mouseleave="leaveIndex">
+        <div @mouseleave="leaveIndex" @mouseenter="isShow">
           <h2 class="all">全部商品分类</h2>
-          <div class="sort" @click="goSearch">
-            <div
-              class="all-sort-list2"
-              v-for="(item1, index1) in categoryList.slice(0, 16)"
-              :key="item1.categoryId"
-            >
-              <div class="item">
-                <h3
-                  @mouseenter="changeIndex(index1)"
-                  :class="{ cur: currentIndex == index1 }"
-                >
-                  <a :data-categoryName="item1.categoryName" :data-category1Id="item1.categoryId">{{ item1.categoryName }}</a>
-                </h3>
-                <div class="item-list clearfix" :style=" {display: currentIndex == index1? 'block': 'none'}">
-                  <div
-                    class="subitem"
-                    v-for="(item2, index2) in item1.categoryChild"
-                    :key="item2.categoryId"
+          <transition name="sort">
+            <div class="sort" @click="goSearch" v-show="show">
+              <div
+                class="all-sort-list2"
+                v-for="(item1, index1) in categoryList.slice(0, 16)"
+                :key="item1.categoryId"
+              >
+                <div class="item">
+                  <h3
+                    @mouseenter="changeIndex(index1)"
+                    :class="{ cur: currentIndex == index1 }"
                   >
-                    <dl class="fore">
-                      <dt>
-                        <a  :data-categoryName="item2.categoryName" :data-category2Id="item2.categoryId">{{ item2.categoryName }}</a>
-                      </dt>
-                      <dd>
-                        <em
-                          v-for="(item3, index3) in item2.categoryChild"
-                          :key="item3.categoryId"
-                        >
-                          <a  :data-categoryName="item3.categoryName" :data-category3Id="item3.categoryId">{{ item3.categoryName }}</a>
-                        </em>
-                      </dd>
-                    </dl>
+                    <a
+                      :data-categoryName="item1.categoryName"
+                      :data-category1Id="item1.categoryId"
+                      >{{ item1.categoryName }}</a
+                    >
+                  </h3>
+                  <div
+                    class="item-list clearfix"
+                    :style="{
+                      display: currentIndex == index1 ? 'block' : 'none',
+                    }"
+                  >
+                    <div
+                      class="subitem"
+                      v-for="(item2, index2) in item1.categoryChild"
+                      :key="item2.categoryId"
+                    >
+                      <dl class="fore">
+                        <dt>
+                          <a
+                            :data-categoryName="item2.categoryName"
+                            :data-category2Id="item2.categoryId"
+                            >{{ item2.categoryName }}</a
+                          >
+                        </dt>
+                        <dd>
+                          <em
+                            v-for="(item3, index3) in item2.categoryChild"
+                            :key="item3.categoryId"
+                          >
+                            <a
+                              :data-categoryName="item3.categoryName"
+                              :data-category3Id="item3.categoryId"
+                              >{{ item3.categoryName }}</a
+                            >
+                          </em>
+                        </dd>
+                      </dl>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
+          </transition>
         </div>
         <nav class="nav">
           <a href="###">服装城</a>
@@ -60,16 +79,21 @@
 
 <script>
 import { mapState } from "vuex";
-import throttle from 'lodash/throttle'
+import throttle from "lodash/throttle";
 export default {
   name: "TypeNav",
   data() {
     return {
       currentIndex: -1,
+      show: true,
     };
   },
   mounted() {
     this.$store.dispatch("categoryList");
+
+    if (this.$route.path !== "/home") {
+      this.show = false;
+    }
   },
   computed: {
     ...mapState({
@@ -77,39 +101,48 @@ export default {
     }),
   },
   methods: {
-
-    changeIndex: throttle(function(index){
+    changeIndex: throttle(function (index) {
       this.currentIndex = index;
-    },50),
-  
+    }, 50),
+
     leaveIndex() {
       this.currentIndex = -1;
+      if (this.$route.path !== "/home") {
+        this.show = false;
+      }
     },
 
-    goSearch(event){
+    goSearch(event) {
       const node = event.target;
-      let { categoryname,category1id,category2id,category3id } = node.dataset;
+      let { categoryname, category1id, category2id, category3id } =
+        node.dataset;
 
-      if(categoryname){
-        let query = {categoryName:categoryname}
+      if (categoryname) {
+        let query = { categoryName: categoryname };
 
-        if(category1id){
-          query.categoryId = category1id
+        if (category1id) {
+          query.categoryId = category1id;
         }
 
-        if(category2id){
-          query.category2Id = category2id
+        if (category2id) {
+          query.category2Id = category2id;
         }
 
-        if(category3id){
-          query.category3Id = category3id
+        if (category3id) {
+          query.category3Id = category3id;
         }
         this.$router.push({
-          name:'search',
-          query:query
-        })
+          name: "search",
+          query: query,
+        });
       }
-    }
+    },
+
+    isShow() {
+      if (this.$route.path !== "/home") {
+        this.show = true;
+      }
+    },
   },
 };
 </script>
@@ -234,6 +267,16 @@ export default {
           background-color: skyblue;
         }
       }
+    }
+
+    .sort-enter{
+      height: 0;
+    }
+    .sort-enter-to{
+      height: 461px;
+    }
+    .sort-enter-active{
+      transition: all .5s linear;
     }
   }
 }
