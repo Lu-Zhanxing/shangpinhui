@@ -58,8 +58,9 @@ export default {
   methods: {
     toSearch(){
       this.$router.push({
-        path:'/search',
-        query: {k: this.keywords},
+        // path:'/search',
+        name:'search',
+        query: this.$route.query || undefined,
         params: {keywords: this.keywords}
       })
     }
