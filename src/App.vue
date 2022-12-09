@@ -9,6 +9,7 @@
 <script>
 import Header from './components/Header/index.vue'
 import Footer from './components/Footer/index.vue'
+import '@/mock/mockSever.js'
 
 export default {
   name: 'App',
