@@ -1,4 +1,5 @@
 import requests from './request'
+import mockRequests from './mockAjax'
 
 export const reqCategoryList = (() => {
     return requests({
@@ -6,3 +7,5 @@ export const reqCategoryList = (() => {
         method: 'get'
     })
 })
+
+export const reqBannerList = () => mockRequests.get('/banners')
