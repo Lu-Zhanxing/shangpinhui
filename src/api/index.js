@@ -9,3 +9,5 @@ export const reqCategoryList = (() => {
 })
 
 export const reqBannerList = () => mockRequests.get('/banners')
+
+export const reqFloorList = () => mockRequests.get('/floors')

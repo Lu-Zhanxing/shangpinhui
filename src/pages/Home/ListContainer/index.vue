@@ -107,7 +107,7 @@
 <script>
 import { mapState } from "vuex";
 import Swiper from "swiper";
-import "swiper/css/swiper.min.css";
+
 export default {
   name: "ListContainer",
   mounted() {
