@@ -118,11 +118,11 @@
       SearchSelector
     },
     mounted() {
-      this.$store.dispatch('searchList',{})
+      this.$store.dispatch('search/searchList',{})
       
     },
     computed: {
-      ...mapGetters(['attrsList','goodsList','trademarkList'])
+      ...mapGetters('search',['attrsList','goodsList','trademarkList'])
     },
   }
 </script>
