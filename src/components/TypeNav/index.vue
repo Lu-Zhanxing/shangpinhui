@@ -122,7 +122,7 @@ export default {
         let query = { categoryName: categoryname };
 
         if (category1id) {
-          query.categoryId = category1id;
+          query.category1Id = category1id;
         }
 
         if (category2id) {

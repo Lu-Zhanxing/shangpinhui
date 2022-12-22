@@ -36,7 +36,7 @@
             type="text"
             id="autocomplete"
             class="input-error input-xxlarge"
-            v-model="keywords"
+            v-model="keyword"
           />
           <button class="sui-btn btn-xlarge btn-danger" type="button" @click="toSearch">
             搜索
@@ -52,7 +52,7 @@ export default {
   name: "Header",
   data() {
     return {
-      keywords: ''
+      keyword: ''
     }
   },
   methods: {
@@ -61,7 +61,7 @@ export default {
         // path:'/search',
         name:'search',
         query: this.$route.query || undefined,
-        params: {keywords: this.keywords}
+        params: {keyword: this.keyword}
       })
     }
   },
