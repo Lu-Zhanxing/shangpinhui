@@ -36,5 +36,4 @@ export default {
     mutations,
     state,
     getters,
-    namespaced: true
 }

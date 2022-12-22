@@ -19,7 +19,7 @@
         </div>
 
         <!--selector-->
-        <SearchSelector />
+        <SearchSelector :attrsList="attrsList" :trademarkList="trademarkList"/>
 
         <!--details-->
         <div class="details clearfix">
@@ -118,11 +118,11 @@
       SearchSelector
     },
     mounted() {
-      this.$store.dispatch('search/searchList',{})
+      this.$store.dispatch('searchList',{})
       
     },
     computed: {
-      ...mapGetters('search',['attrsList','goodsList','trademarkList'])
+      ...mapGetters(['attrsList','goodsList','trademarkList'])
     },
   }
 </script>
