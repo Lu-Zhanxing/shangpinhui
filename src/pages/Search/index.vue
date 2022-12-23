@@ -11,10 +11,8 @@
             </li>
           </ul>
           <ul class="fl sui-tag">
-            <li class="with-x">手机</li>
-            <li class="with-x">iphone<i>×</i></li>
-            <li class="with-x">华为<i>×</i></li>
-            <li class="with-x">OPPO<i>×</i></li>
+            <li class="with-x" v-if="searchParams.categoryName">{{searchParams.categoryName}}<i @click="removeCategoryName">×</i></li>
+            <li class="with-x" v-if="searchParams.keyword">{{searchParams.keyword}}<i @click="removeKeyword()">×</i></li>
           </ul>
         </div>
 
@@ -161,7 +159,28 @@ export default {
   methods: {
     getSearchList(){
       this.$store.dispatch("searchList", this.searchParams);
-    }
+    },
+    removeCategoryName(){
+      // 点击的时候将面包屑标签名称置为undefined（和置为空相比，undefined数据发请求时不会传给后台）
+      this.searchParams.categoryName = undefined
+
+      this.$router.push({
+        name: "search",
+        params: this.$route.params || undefined
+      })
+      // this.getSearchList()
+    },
+    removeKeyword(){
+      // 点击的时候将面包屑标签名称置为undefined（和置为空相比，undefined数据发请求时不会传给后台）
+      this.searchParams.keyword = undefined
+
+      this.$router.push({
+        name: "search",
+        query: this.$route.query || undefined
+      })
+
+      this.$bus.$emit('clearKeyword')
+    },
   },
   watch:{
     $route:{
@@ -171,7 +190,7 @@ export default {
         this.searchParams.category2Id = '',
         this.searchParams.category3Id = '',
         Object.assign(this.searchParams,this.$route.query,this.$route.params)
-        this.$store.dispatch("searchList", this.searchParams);
+        this.getSearchList()
       },
       immediate: true
     }
