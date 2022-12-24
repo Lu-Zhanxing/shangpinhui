@@ -17,11 +17,13 @@
             <li class="with-x" v-if="searchParams.keyword">{{searchParams.keyword}}<i @click="removeKeyword">×</i></li>
             <!-- 品牌信息 -->
             <li class="with-x" v-if="searchParams.trademark">{{searchParams.trademark.split(":")[1]}}<i @click="removeTrademark">×</i></li>
+            <!-- 参数属性 -->
+            <li class="with-x" v-for="(attrItem,index) in searchParams.props" :key="index">{{attrItem.split(":")[1]}}<i @click="removeAttrItem(index)">×</i></li>
           </ul>
         </div>
 
         <!--selector-->
-        <SearchSelector :attrsList="attrsList" :trademarkList="trademarkList" @getTrademarkInfo="getTrademarkInfo"/>
+        <SearchSelector :attrsList="attrsList" :trademarkList="trademarkList" @getTrademarkInfo="getTrademarkInfo" @getAttrInfo="getAttrInfo"/>
 
         <!--details-->
         <div class="details clearfix">
@@ -196,6 +198,21 @@ export default {
       this.searchParams.trademark = undefined
       this.getSearchList()
     },
+
+    //自定义事件获取子组件传过来的参数属性
+    getAttrInfo(attr,attrVal){
+      let props = `${attr.attrId}:${attrVal}:${attr.attrName}`
+      // 如果数组中没有此条数据，push进去
+      if(!this.searchParams.props.includes(props)){
+        this.searchParams.props.push(props)
+        this.getSearchList()
+      }
+    },
+
+    removeAttrItem(index){
+      this.searchParams.props.splice(index,1)
+      this.getSearchList()
+    }
   },
   watch:{
     $route:{
