@@ -4,7 +4,7 @@
       <div class="fl key brand">品牌</div>
       <div class="value logos">
         <ul class="logo-list">
-          <li v-for="(trademark,index) in trademarkList" :key="trademark.tmId">{{trademark.tmName}}</li>
+          <li v-for="(trademark,index) in trademarkList" :key="trademark.tmId" @click="trademarkInfo(trademark)">{{trademark.tmName}}</li>
         </ul>
       </div>
       <div class="ext">
@@ -30,7 +30,12 @@
 <script>
   export default {
     name: 'SearchSelector',
-    props:['trademarkList','attrsList']
+    props:['trademarkList','attrsList'],
+    methods: {
+      trademarkInfo(trademark){
+        this.$emit("getTrademarkInfo",trademark)
+      }
+    },
   }
 </script>
 

@@ -11,13 +11,17 @@
             </li>
           </ul>
           <ul class="fl sui-tag">
+            <!-- 三级导航选项 -->
             <li class="with-x" v-if="searchParams.categoryName">{{searchParams.categoryName}}<i @click="removeCategoryName">×</i></li>
-            <li class="with-x" v-if="searchParams.keyword">{{searchParams.keyword}}<i @click="removeKeyword()">×</i></li>
+            <!-- 关键词 -->
+            <li class="with-x" v-if="searchParams.keyword">{{searchParams.keyword}}<i @click="removeKeyword">×</i></li>
+            <!-- 品牌信息 -->
+            <li class="with-x" v-if="searchParams.trademark">{{searchParams.trademark.split(":")[1]}}<i @click="removeTrademark">×</i></li>
           </ul>
         </div>
 
         <!--selector-->
-        <SearchSelector :attrsList="attrsList" :trademarkList="trademarkList" />
+        <SearchSelector :attrsList="attrsList" :trademarkList="trademarkList" @getTrademarkInfo="getTrademarkInfo"/>
 
         <!--details-->
         <div class="details clearfix">
@@ -180,6 +184,17 @@ export default {
       })
 
       this.$bus.$emit('clearKeyword')
+    },
+
+    //自定义事件获取子组件传过来的品牌数据
+    getTrademarkInfo(trademarkInfo){
+      this.searchParams.trademark = `${trademarkInfo.tmId}:${trademarkInfo.tmName}`
+      this.getSearchList()
+    },
+
+    removeTrademark(){
+      this.searchParams.trademark = undefined
+      this.getSearchList()
     },
   },
   watch:{
