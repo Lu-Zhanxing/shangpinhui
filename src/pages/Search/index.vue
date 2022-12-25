@@ -30,23 +30,11 @@
           <div class="sui-navbar">
             <div class="navbar-inner filter">
               <ul class="sui-nav">
-                <li class="active">
-                  <a href="#">综合</a>
+                <li :class="{'active':isOne}" @click="changeOrder('1')">
+                  <a>综合<span class="iconfont" :class="{'icon-arrowdown':isDesc,'icon-arrowup':isAsc}" v-show="isOne"></span></a>
                 </li>
-                <li>
-                  <a href="#">销量</a>
-                </li>
-                <li>
-                  <a href="#">新品</a>
-                </li>
-                <li>
-                  <a href="#">评价</a>
-                </li>
-                <li>
-                  <a href="#">价格⬆</a>
-                </li>
-                <li>
-                  <a href="#">价格⬇</a>
+                <li :class="{'active':isTwo}" @click="changeOrder('2')">
+                  <a>价格<span class="iconfont" :class="{'icon-arrowdown':isDesc,'icon-arrowup':isAsc}" v-show="isTwo"></span></a>
                 </li>
               </ul>
             </div>
@@ -161,6 +149,22 @@ export default {
   },
   computed: {
     ...mapGetters(["attrsList", "goodsList", "trademarkList"]),
+    // 判断是不是综合排序
+    isOne(){
+      return this.searchParams.order.includes("1")
+    },
+    // 判断是不是价格排序高亮
+    isTwo(){
+      return this.searchParams.order.includes("2")
+    },
+    // 判断是否是降序
+    isAsc(){
+      return this.searchParams.order.includes("asc")
+    },
+    // 判断是否是升序
+    isDesc(){
+      return this.searchParams.order.includes("desc")
+    },
   },
   methods: {
     getSearchList(){
@@ -211,6 +215,21 @@ export default {
 
     removeAttrItem(index){
       this.searchParams.props.splice(index,1)
+      this.getSearchList()
+    },
+
+    // 切换排序标签
+    changeOrder(flag){
+      let originOrder = this.searchParams.order
+      let originFlag = originOrder.split(":")[0]
+      let originSort = originOrder.split(":")[1]
+      let currentOrder = ''
+      if(originFlag == flag){
+        currentOrder = `${flag}:${originSort=='desc'?'asc':'desc'}`
+      }else{
+        currentOrder = `${flag}:${'desc'}`
+      }
+      this.searchParams.order = currentOrder
       this.getSearchList()
     }
   },
