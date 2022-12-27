@@ -49,9 +49,9 @@
                 :key="goods.id"
               >
                 <div class="list-wrap">
-                  <div class="p-img">
-                    <a href="item.html" target="_blank"
-                      ><img :src="goods.defaultImg"
+                  <div class="p-img" @click="toDetail(goods.id)">
+                    <a>
+                      <img :src="goods.defaultImg"
                     /></a>
                   </div>
                   <div class="price">
@@ -213,6 +213,20 @@ export default {
     getPageNo(pageNo){
       this.searchParams.pageNo = pageNo
       this.getSearchList()
+    },
+
+    // 点击图片跳转到详情页面
+    // 注意：这里没跟老师一样用声明式路由导航，是因为如果遍历内容太多，每次都要声明router-link，影响性能
+    toDetail(goodId){
+      // 注意：路由携带params参数时，若使用to的对象写法，则不能使用path配置项，必须使用name配置
+      this.$router.push({
+        name:'detail',
+        params:{goodId:goodId}
+      })
+      // 如果使用path配置的话，需要在path直接传参数形式，就不用单独传params参数了
+      // this.$router.push({
+      //   path:`/detail/${goodsId}`
+      // })
     }
   },
   watch:{

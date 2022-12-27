@@ -20,3 +20,11 @@ export const reqSearchList = ((params) => {
         data: params
     })
 })
+
+// 商品详情请求列表
+export const reqGoodDetail = ((skuId) => {
+    return requests({
+        url: `/item/${skuId}`,
+        method: 'get'
+    })
+})
