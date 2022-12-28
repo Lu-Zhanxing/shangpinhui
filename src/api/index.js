@@ -28,3 +28,11 @@ export const reqGoodDetail = ((skuId) => {
         method: 'get'
     })
 })
+
+// 添加到购物车返回的请求
+export const reqAddToCart = (({skuId,skuNum}) =>{
+    return requests({
+        url:`/cart/addToCart/${skuId}/${skuNum}`,
+        method:'post'
+    })
+})

@@ -112,7 +112,7 @@
                 <a href="javascript:" class="mins" @click="skuNum>1 ? skuNum-- : skuNum">-</a>
               </div>
               <div class="add">
-                <a href="javascript:">加入购物车</a>
+                <a href="javascript:" @click="addToCart">加入购物车</a>
               </div>
             </div>
           </div>
@@ -395,6 +395,20 @@ export default {
       }
       this.skuNum = curNum
     },
+
+    // 加入购物车操作
+    async addToCart(){
+      // 1.先发请求，传参skuId 、skuNum 
+      try {
+        // 2.请求成功，跳转到购物车页面
+        await this.$store.dispatch('getReqAddToCart',{skuId:this.$route.params.goodId,skuNum:this.skuNum})
+        // 这里要写跳转到购物车页面的代码
+        
+      } catch (error) {
+        // 3.请求失败，提示给用户错误信息
+        console.log(error.message);
+      }
+    }
   },
 };
 </script>
