@@ -403,10 +403,12 @@ export default {
         // 2.请求成功，跳转到购物车页面
         await this.$store.dispatch('getReqAddToCart',{skuId:this.$route.params.goodId,skuNum:this.skuNum})
         // 这里要写跳转到购物车页面的代码
-        
+        // 因为vue是单页面应用，所以这里通过会话形式将数据存储
+        sessionStorage.setItem('skuInfo',JSON.stringify(this.skuInfo))
+        this.$router.push({name:'addcartsuccess',query:{skuNum:this.skuNum}})
       } catch (error) {
         // 3.请求失败，提示给用户错误信息
-        console.log(error.message);
+        alert(error.message);
       }
     }
   },

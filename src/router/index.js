@@ -8,6 +8,8 @@ import Search from '@/pages/Search'
 import Login from '@/pages/Login'
 import Register from '@/pages/Register'
 import Detail from '@/pages/Detail'
+import AddCartSuccess from '@/pages/AddCartSuccess'
+import ShopCart from '@/pages/ShopCart'
 
 //需要重写VueRouter.prototype原型对象身上的push|replace方法
 //先把VueRouter.prototype身上的push|replace方法进行保存一份
@@ -73,6 +75,18 @@ export default new VueRouter({
       path: '/detail/:goodId',
       name: 'detail',
       component: Detail,
+      meta: { isShowFooter: true }
+    },    
+    {
+      path: '/addcartsuccess',
+      name: 'addcartsuccess',
+      component: AddCartSuccess,
+      meta: { isShowFooter: true }
+    },
+    {
+      path: '/shopcart',
+      name: 'shopcart',
+      component: ShopCart,
       meta: { isShowFooter: true }
     },
     //路由重定向，默认访问home页面
