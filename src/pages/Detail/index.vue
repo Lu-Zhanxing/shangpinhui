@@ -102,9 +102,14 @@
             </div>
             <div class="cartWrap">
               <div class="controls">
-                <input autocomplete="off" class="itxt" />
-                <a href="javascript:" class="plus">+</a>
-                <a href="javascript:" class="mins">-</a>
+                <input
+                  autocomplete="off"
+                  class="itxt"
+                  v-model="skuNum"
+                  @change="changeSkuNum"
+                />
+                <a href="javascript:" class="plus" @click="skuNum++">+</a>
+                <a href="javascript:" class="mins" @click="skuNum>1 ? skuNum-- : skuNum">-</a>
               </div>
               <div class="add">
                 <a href="javascript:">加入购物车</a>
@@ -352,6 +357,11 @@ import { mapGetters } from "vuex";
 
 export default {
   name: "Detail",
+  data() {
+    return {
+      skuNum: 1,
+    };
+  },
   components: {
     ImageList,
     Zoom,
@@ -374,6 +384,16 @@ export default {
         item.isChecked = 0;
       });
       spuSaleAttrValue.isChecked = 1;
+    },
+
+    // 加入购物车数量输入框改变事件
+    changeSkuNum() {
+      // 正则限制用户输入的内容只能是数字
+      let curNum= this.skuNum.replace(/[^\d]/g,'') * 1;
+      if(curNum < 1){
+        curNum = 1
+      }
+      this.skuNum = curNum
     },
   },
 };
