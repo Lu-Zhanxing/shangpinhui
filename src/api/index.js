@@ -38,3 +38,5 @@ export const reqAddToCart = (({skuId,skuNum}) =>{
 })
 // 购物车列表
 export const reqCartList = () => requests({url:"/cart/cartList",method:'get'})
+// 删除购物车商品
+export const reqDelCartInfo = (skuId) => requests({url:`/cart/deleteCart/${skuId}`,method:'delete'})

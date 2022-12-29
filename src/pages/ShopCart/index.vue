@@ -44,11 +44,7 @@
               :value="cartInfo.skuNum"
               class="itxt"
               @change="
-                updateSkuNum(
-                  'inputChange',
-                  cartInfo,
-                  $event.target.value * 1
-                )
+                updateSkuNum('inputChange', cartInfo, $event.target.value * 1)
               "
             />
             <a
@@ -62,7 +58,7 @@
             <span class="sum">{{ cartInfo.skuPrice * cartInfo.skuNum }}</span>
           </li>
           <li class="cart-list-con7">
-            <a href="#none" class="sindelet">删除</a>
+            <a class="sindelet" @click="delectCartInfo(cartInfo.skuId)">删除</a>
             <br />
             <a href="#none">移到收藏</a>
           </li>
@@ -114,7 +110,7 @@ export default {
     },
 
     // 更新购物车的商品数量
-    updateSkuNum:throttle(async function(flag, cartInfo, cartNum) {
+    updateSkuNum: throttle(async function (flag, cartInfo, cartNum) {
       let skuNum = 0;
       switch (flag) {
         case "mins":
@@ -136,13 +132,27 @@ export default {
       }
       try {
         // 发请求更新商品数量
-        await this.$store.dispatch("getReqAddToCart", { skuId:cartInfo.skuId, skuNum });
+        await this.$store.dispatch("getReqAddToCart", {
+          skuId: cartInfo.skuId,
+          skuNum,
+        });
+        // 再次发请求获取购物车列表更新完产品数量的信息
+        this.getCartListData();
+      } catch (error) {
+        alert(error.message);
+      }
+    }, 600),
+
+    // 删除购物车商品
+    async delectCartInfo(skuId) {
+      try {
+        await this.$store.dispatch("delCartInfo",skuId);
         // 再次发请求获取购物车列表更新完产品数量的信息
         this.getCartListData();
       } catch (error) {
         alert(error.message)
       }
-    },600)
+    },
   },
 };
 </script>
