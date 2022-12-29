@@ -3,8 +3,8 @@ import {reqSearchList} from '@/api'
 const actions = {
     async searchList(context,params){
         let result = await reqSearchList(params)
-        if(result.status == 200 && result.data.code == 200){
-            context.commit('SEARCHLIST',result.data.data)
+        if(result.code == 200){
+            context.commit('SEARCHLIST',result.data)
         }
     }
 }

@@ -18,7 +18,7 @@ requests.interceptors.request.use(function (config) {
 // 添加响应拦截器
 requests.interceptors.response.use(function (response) {
     nprogress.done()
-    return response;
+    return response.data;
   }, function (error) {
     return Promise.reject(error);
   });
