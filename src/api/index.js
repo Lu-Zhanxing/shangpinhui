@@ -29,7 +29,7 @@ export const reqGoodDetail = ((skuId) => {
     })
 })
 
-// 添加到购物车返回的请求
+// 添加/更新购物车商品数量(skuNum是变化的值)
 export const reqAddToCart = (({skuId,skuNum}) =>{
     return requests({
         url:`/cart/addToCart/${skuId}/${skuNum}`,

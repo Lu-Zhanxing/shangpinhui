@@ -10,6 +10,7 @@ Vue.component(TypeNav.name,TypeNav)
 Vue.component(Carousel.name,Carousel)
 Vue.component(Pagination.name,Pagination)
 
+
 Vue.config.productionTip = false
 
 new Vue({
