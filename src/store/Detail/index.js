@@ -1,5 +1,6 @@
 import {reqGoodDetail} from '@/api/index'
 import {reqAddToCart} from '@/api/index'
+import {getUuid} from '@/utils/uuid_token'
 
 const actions = {
     // 获取商品详情
@@ -23,11 +24,12 @@ const actions = {
 const mutations = {
     GETGOODDETAIL(state,goodDetail){
         state.goodDetail = goodDetail
-    }
+    },
 }
 
 const state = {
-    goodDetail:{}
+    goodDetail:{},
+    uuid_token: getUuid()
 }
 
 const getters = {
@@ -39,7 +41,7 @@ const getters = {
     },
     spuSaleAttrList(state){
         return state.goodDetail.spuSaleAttrList || []
-    }
+    },
 }
 
 export default {
