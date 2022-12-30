@@ -20,13 +20,32 @@ const actions = {
     // 根据id修改商品复选框选中状态
     async CheckCartInfo({commit},{skuId,isChecked}){
         let request = await reqCheckCartInfo(skuId,isChecked)
-        console.log(request);
         if(request.code == 200){
             return 'OK'
         }else{
             return Promise.reject(new Error('fail'))
         }
-    }
+    },
+    // 删除所有选中的商品
+    delAllCheckedCartInfo({dispatch,getters}){
+        let cartInfoList = getters.cartList.cartInfoList || []
+        let PromiseAll = []
+        cartInfoList.forEach(item => {
+            let promise = item.isChecked==1 ? dispatch('delCartInfo',item.skuId) : ''
+            PromiseAll.push(promise)
+        });
+        return Promise.all(PromiseAll)
+    },
+    //全选按钮的操作
+    updateCheckedAll({dispatch,getters},isChecked){
+        let cartInfoList = getters.cartList.cartInfoList || []
+        let PromiseAll = []
+        cartInfoList.forEach(item => {
+            let promise = item.isChecked!=isChecked ? dispatch('CheckCartInfo',{skuId:item.skuId,isChecked}) : ''
+            PromiseAll.push(promise)
+        });
+        return Promise.all(PromiseAll)
+    } 
 
 }
 

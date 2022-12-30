@@ -21,7 +21,7 @@
               type="checkbox"
               name="chk_list"
               :checked="cartInfo.isChecked == 1"
-              @change="updateCheckedById(cartInfo.skuId,$event)"
+              @change="updateCheckedById(cartInfo.skuId, $event)"
             />
           </li>
           <li class="cart-list-con2">
@@ -68,11 +68,11 @@
     </div>
     <div class="cart-tool">
       <div class="select-all">
-        <input class="chooseAll" type="checkbox" />
+        <input class="chooseAll" type="checkbox" :checked="isAllCheckd && this.cartInfoList.length>0" @change="updateCheckedAll" />
         <span>全选</span>
       </div>
       <div class="option">
-        <a href="#none">删除选中的商品</a>
+        <a href="#none" @click="delCheckedCart">删除选中的商品</a>
         <a href="#none">移到我的关注</a>
         <a href="#none">清除下柜商品</a>
       </div>
@@ -100,10 +100,16 @@ export default {
   },
   computed: {
     ...mapGetters(["cartList"]),
+
     // 购物车列表的数据
     cartInfoList() {
       return this.cartList.cartInfoList || [];
     },
+
+    // 判断所有商品都是勾选状态的时候,那么全选也要勾选上
+    isAllCheckd(){
+      return this.cartInfoList.every(item => item.isChecked==1)
+    }
   },
   methods: {
     getCartListData() {
@@ -147,27 +153,67 @@ export default {
     // 删除购物车商品
     async delectCartInfo(skuId) {
       try {
-        await this.$store.dispatch("delCartInfo",skuId);
+        await this.$store.dispatch("delCartInfo", skuId);
+        // 再次发请求获取购物车列表更新完产品数量的信息
+        this.getCartListData();
+      } catch (error) {
+        alert(error.message);
+      }
+    },
+
+    //根据id更新商品选择状态
+    async updateCheckedById(skuId, event) {
+      try {
+        let isChecked = event.target.checked ? "1" : "0";
+        await this.$store.dispatch("CheckCartInfo", { skuId, isChecked });
+        // 再次发请求获取购物车列表更新完产品数量的信息
+        this.getCartListData();
+      } catch (error) {
+        alert(error.message);
+      }
+    },
+
+    // 删除选中的商品
+    async delCheckedCart() {
+      // // 自己尝试的用这种方法,目前尝试也没问题
+      // let arr = [];
+      // this.cartInfoList.forEach((item) => {
+      //   if (item.isChecked == 1) {
+      //     arr.push(item.skuId);
+      //   }
+      // });
+      // console.log(arr);
+      // for (let i = 0; i < arr.length; i++) {
+      //   try {
+      //     await this.$store.dispatch("delCartInfo", arr[i]);
+      //   } catch (error) {
+      //     alert(error.message);
+      //   }
+      // }
+      // // 再次发请求获取购物车列表更新完产品数量的信息
+      // this.getCartListData();
+
+      try {
+        await this.$store.dispatch("delAllCheckedCartInfo");
+        // 再次发请求获取购物车列表更新完产品数量的信息
+        this.getCartListData();
+      } catch (error) {
+        console.log(error, message);
+      }
+    },
+
+    // 更新全选状态
+    async updateCheckedAll(event) {
+      let isChecked = event.target.checked ? "1" : "0";
+      try {
+        await this.$store.dispatch("updateCheckedAll", isChecked);
         // 再次发请求获取购物车列表更新完产品数量的信息
         this.getCartListData();
       } catch (error) {
         alert(error.message)
       }
     },
-
-    //根据id更新商品选择状态
-    async updateCheckedById(skuId,event){
-      
-      
-      try {
-        let isChecked = event.target.checked ? '1':'0'
-        await this.$store.dispatch("CheckCartInfo",{skuId,isChecked});
-        // 再次发请求获取购物车列表更新完产品数量的信息
-        this.getCartListData();
-      } catch (error) {
-        alert(error.message)
-      }
-    }
+    
   },
 };
 </script>
