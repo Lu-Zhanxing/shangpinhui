@@ -77,10 +77,10 @@
         <a href="#none">清除下柜商品</a>
       </div>
       <div class="money-box">
-        <div class="chosed">已选择 <span>0</span>件商品</div>
+        <div class="chosed">已选择 <span>{{checkedCartNum}}</span>件商品</div>
         <div class="sumprice">
           <em>总价（不含运费） ：</em>
-          <i class="summoney">0</i>
+          <i class="summoney">{{totalPrice}}</i>
         </div>
         <div class="sumbtn">
           <a class="sum-btn" href="###" target="_blank">结算</a>
@@ -109,6 +109,20 @@ export default {
     // 判断所有商品都是勾选状态的时候,那么全选也要勾选上
     isAllCheckd(){
       return this.cartInfoList.every(item => item.isChecked==1)
+    },
+
+    // 计算产品总价
+    totalPrice(){
+      let checkedCartList = this.cartInfoList.filter(item => item.isChecked==1)
+      let sum = 0;
+      checkedCartList.forEach(element => {
+        sum += element.skuNum * element.skuPrice
+      });
+      return sum
+    },
+    // 计算已选择几件商品
+    checkedCartNum(){
+      return this.cartInfoList.filter(item => item.isChecked==1).length
     }
   },
   methods: {
