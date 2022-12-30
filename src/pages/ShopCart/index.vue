@@ -21,6 +21,7 @@
               type="checkbox"
               name="chk_list"
               :checked="cartInfo.isChecked == 1"
+              @change="updateCheckedById(cartInfo.skuId,$event)"
             />
           </li>
           <li class="cart-list-con2">
@@ -153,6 +154,20 @@ export default {
         alert(error.message)
       }
     },
+
+    //根据id更新商品选择状态
+    async updateCheckedById(skuId,event){
+      
+      
+      try {
+        let isChecked = event.target.checked ? '1':'0'
+        await this.$store.dispatch("CheckCartInfo",{skuId,isChecked});
+        // 再次发请求获取购物车列表更新完产品数量的信息
+        this.getCartListData();
+      } catch (error) {
+        alert(error.message)
+      }
+    }
   },
 };
 </script>
