@@ -4,6 +4,7 @@ import home from './Home'
 import search from './Search'
 import detail from './Detail'
 import shopcart from './ShopCart'
+import registerandlogin from './RegisterAndLogin'
 
 Vue.use(Vuex)
 
@@ -12,6 +13,7 @@ export default new Vuex.Store({
         home,
         search,
         detail,
-        shopcart
+        shopcart,
+        registerandlogin
     }
 })

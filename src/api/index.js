@@ -42,3 +42,6 @@ export const reqCartList = () => requests({url:"/cart/cartList",method:'get'})
 export const reqDelCartInfo = (skuId) => requests({url:`/cart/deleteCart/${skuId}`,method:'delete'})
 // 切换商品选中状态
 export const reqCheckCartInfo = (skuId,isChecked) => requests({url:`/cart/checkCart/${skuId}/${isChecked}`,method:'get'})
+
+// 注册获取验证码请求
+export const reqGetCode = (phone) => requests({url:`/user/passport/sendCode/${phone}`,method:'get'})
