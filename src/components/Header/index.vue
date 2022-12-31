@@ -5,10 +5,14 @@
       <div class="container">
         <div class="loginList">
           <p>尚品汇欢迎您！</p>
-          <p>
+          <p v-if="!userName">
             <span>请</span>
             <router-link to="/login">登录</router-link>
             <router-link to="/register" class="register">免费注册</router-link>
+          </p>
+          <p v-else>
+            <a>{{userName}}</a>
+            <a class="register">退出登录</a>
           </p>
         </div>
         <div class="typeList">
@@ -38,7 +42,11 @@
             class="input-error input-xxlarge"
             v-model="keyword"
           />
-          <button class="sui-btn btn-xlarge btn-danger" type="button" @click="toSearch">
+          <button
+            class="sui-btn btn-xlarge btn-danger"
+            type="button"
+            @click="toSearch"
+          >
             搜索
           </button>
         </form>
@@ -52,23 +60,29 @@ export default {
   name: "Header",
   data() {
     return {
-      keyword: ''
-    }
+      keyword: "",
+    };
   },
   mounted() {
-    this.$bus.$on('clearKeyword',() => {
-      this.keyword = ""
-    })
+    this.$bus.$on("clearKeyword", () => {
+      this.keyword = "";
+    });
+  },
+  computed: {
+    // 用户名
+    userName() {
+      return this.$store.state.registerandlogin.userInfo.nickName;
+    },
   },
   methods: {
-    toSearch(){
+    toSearch() {
       this.$router.push({
         // path:'/search',
-        name:'search',
+        name: "search",
         query: this.$route.query || undefined,
-        params: {keyword: this.keyword}
-      })
-    }
+        params: { keyword: this.keyword },
+      });
+    },
   },
 };
 </script>

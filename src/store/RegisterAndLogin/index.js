@@ -1,4 +1,4 @@
-import { reqGetCode,reqRegistUser,reqUserLogin} from "@/api";
+import { reqGetCode,reqRegistUser,reqUserLogin,reqUserInfo} from "@/api";
 
 const actions = {
     // 获取验证码
@@ -29,6 +29,16 @@ const actions = {
         }else{
             return Promise.reject(new Error(request.message))
         }
+    },
+    // 获取用户信息
+    async GetUserInfo({commit}){
+        let request = await reqUserInfo()
+        if(request.code == 200){
+            commit('GETUSERINFO',request.data)
+            return 'ok'
+        }else{
+            return Promise.reject(new Error(request.message))
+        }
     }
 }
 const mutations = {
@@ -37,6 +47,9 @@ const mutations = {
     },
     USERLOGIN(state,token){
         state.token = token
+    },
+    GETUSERINFO(state,userInfo){
+        state.userInfo = userInfo
     }
 }
 
@@ -44,7 +57,8 @@ const getters = {}
 
 const state = {
     code: '',
-    token: ''
+    token: '',
+    userInfo: {}
 }
 
 export default {

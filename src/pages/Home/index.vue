@@ -30,8 +30,15 @@ export default {
       Floor,
       Brand
     },
-    mounted() {
+    async mounted() {
       this.$store.dispatch('floorList')
+
+      try {
+        // 获取用户信息
+        await this.$store.dispatch('GetUserInfo')
+      } catch (error) {
+        alert(error.message)
+      }
     },
     computed: {
       ...mapState({floorList:(state) => state.home.floorList})
