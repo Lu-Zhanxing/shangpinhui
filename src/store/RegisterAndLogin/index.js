@@ -1,4 +1,4 @@
-import { reqGetCode,reqRegistUser} from "@/api";
+import { reqGetCode,reqRegistUser,reqUserLogin} from "@/api";
 
 const actions = {
     // 获取验证码
@@ -19,18 +19,32 @@ const actions = {
         }else{
             return Promise.reject(new Error(request.message))
         }
+    },
+    // 用户登录
+    async UserLogin({commit},postData){
+        let request = await reqUserLogin(postData)
+        if(request.code == 200){
+            commit('USERLOGIN',request.data.token)
+            return 'ok'
+        }else{
+            return Promise.reject(new Error(request.message))
+        }
     }
 }
 const mutations = {
     GETCODE(state,code){
         state.code = code
+    },
+    USERLOGIN(state,token){
+        state.token = token
     }
 }
 
 const getters = {}
 
 const state = {
-    code: ''
+    code: '',
+    token: ''
 }
 
 export default {

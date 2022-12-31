@@ -47,3 +47,5 @@ export const reqCheckCartInfo = (skuId,isChecked) => requests({url:`/cart/checkC
 export const reqGetCode = (phone) => requests({url:`/user/passport/sendCode/${phone}`,method:'get'})
 // 注册用户请求
 export const reqRegistUser = (data) => requests({url:"/user/passport/register",method:'post',data:data})
+// 用户登录请求
+export const reqUserLogin = (data) => requests({url:"/user/passport/login",method:'post',data:data})
