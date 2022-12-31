@@ -1,5 +1,5 @@
 import { reqGetCode,reqRegistUser,reqUserLogin,reqUserInfo} from "@/api";
-
+import {setToken,getToken} from '@/utils/token'
 const actions = {
     // 获取验证码
     async getCode({commit},phone){
@@ -25,6 +25,8 @@ const actions = {
         let request = await reqUserLogin(postData)
         if(request.code == 200){
             commit('USERLOGIN',request.data.token)
+            // 持久化存储
+            setToken(request.data.token)
             return 'ok'
         }else{
             return Promise.reject(new Error(request.message))
@@ -57,7 +59,7 @@ const getters = {}
 
 const state = {
     code: '',
-    token: '',
+    token: getToken(),
     userInfo: {}
 }
 
