@@ -51,3 +51,5 @@ export const reqRegistUser = (data) => requests({url:"/user/passport/register",m
 export const reqUserLogin = (data) => requests({url:"/user/passport/login",method:'post',data:data})
 // 获取用户登录信息(根据请求头token)
 export const reqUserInfo = () => requests({url:"/user/passport/auth/getUserInfo",method:'get'})
+// 退出登录
+export const reqLogout = () => requests({url:'/user/passport/logout',method:'get'})

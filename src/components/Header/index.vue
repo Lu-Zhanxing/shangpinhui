@@ -11,8 +11,8 @@
             <router-link to="/register" class="register">免费注册</router-link>
           </p>
           <p v-else>
-            <a>{{userName}}</a>
-            <a class="register">退出登录</a>
+            <a>{{ userName }}</a>
+            <a class="register" @click="goLogout">退出登录</a>
           </p>
         </div>
         <div class="typeList">
@@ -82,6 +82,16 @@ export default {
         query: this.$route.query || undefined,
         params: { keyword: this.keyword },
       });
+    },
+    // 用户退出登录
+    async goLogout() {
+      try {
+        await this.$store.dispatch("Logout");
+        // 退出登陆后，跳到首页
+        this.$router.push('/home')
+      } catch (error) {
+        alert(error.message)
+      }
     },
   },
 };

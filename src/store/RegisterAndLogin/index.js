@@ -1,5 +1,5 @@
-import { reqGetCode,reqRegistUser,reqUserLogin,reqUserInfo} from "@/api";
-import {setToken,getToken} from '@/utils/token'
+import { reqGetCode,reqRegistUser,reqUserLogin,reqUserInfo,reqLogout} from "@/api";
+import {setToken,getToken,removeToken} from '@/utils/token'
 const actions = {
     // 获取验证码
     async getCode({commit},phone){
@@ -41,6 +41,16 @@ const actions = {
         }else{
             return Promise.reject(new Error(request.message))
         }
+    },
+    // 退出登录
+    async Logout({commit}){
+        let request = await reqLogout()
+        if(request.code == 200){
+            commit("CLEAR")
+            return 'ok'
+        }else{
+            return Promise.reject(new Error("fail"))
+        }
     }
 }
 const mutations = {
@@ -52,6 +62,11 @@ const mutations = {
     },
     GETUSERINFO(state,userInfo){
         state.userInfo = userInfo
+    },
+    CLEAR(state){
+        state.token = ''
+        state.userInfo = {}
+        removeToken()
     }
 }
 
