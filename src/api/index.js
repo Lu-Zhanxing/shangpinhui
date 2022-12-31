@@ -45,3 +45,5 @@ export const reqCheckCartInfo = (skuId,isChecked) => requests({url:`/cart/checkC
 
 // 注册获取验证码请求
 export const reqGetCode = (phone) => requests({url:`/user/passport/sendCode/${phone}`,method:'get'})
+// 注册用户请求
+export const reqRegistUser = (data) => requests({url:"/user/passport/register",method:'post',data:data})

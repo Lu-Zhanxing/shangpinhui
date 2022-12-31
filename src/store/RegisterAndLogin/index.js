@@ -1,6 +1,7 @@
-import { reqGetCode } from "@/api";
+import { reqGetCode,reqRegistUser} from "@/api";
 
 const actions = {
+    // 获取验证码
     async getCode({commit},phone){
         let request = await reqGetCode(phone)
         if(request.code == 200){
@@ -8,6 +9,15 @@ const actions = {
             return 'ok'
         }else{
             return Promise.reject(new Error("fail"))
+        }
+    },
+    // 用户注册
+    async registUser({commit},postData){
+        let request = await reqRegistUser(postData)
+        if(request.code == 200){
+            return 'ok'
+        }else{
+            return Promise.reject(new Error(request.message))
         }
     }
 }

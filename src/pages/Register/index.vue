@@ -40,12 +40,12 @@
         <span class="error-msg">错误提示信息</span>
       </div>
       <div class="controls">
-        <input name="m1" type="checkbox" :checked="isAgree" />
+        <input name="m1" type="checkbox" :checked="isAgree" @change="isAgree = !isAgree"/>
         <span>同意协议并注册《尚品汇用户协议》</span>
         <span class="error-msg">错误提示信息</span>
       </div>
       <div class="btn">
-        <button>完成注册</button>
+        <button @click="goLogin">完成注册</button>
       </div>
     </div>
 
@@ -86,8 +86,20 @@ export default {
         await this.$store.dispatch("getCode", phone);
         this.code = this.$store.state.registerandlogin.code;
       } catch (error) {
-        alert(error.message)
+        alert(error.message);
       }
+    },
+    // 提交注册信息,跳转到的登录页
+    async goLogin() {
+      let { phone, password, code, password1,isAgree } = this;
+      if (phone && code && password == password1 && isAgree) {
+        try {
+          await this.$store.dispatch("registUser", { phone, code, password });
+          this.$router.push("/login");
+        } catch (error) {
+          alert(error.message);
+        }
+      } else alert("输入信息有误,请查看后重新注册");
     },
   },
 };
