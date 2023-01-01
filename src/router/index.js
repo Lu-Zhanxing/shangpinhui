@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
 import routes from '@/router/routes'
+import store from '@/store'
 
 //需要重写VueRouter.prototype原型对象身上的push|replace方法
 //先把VueRouter.prototype身上的push|replace方法进行保存一份
@@ -41,9 +42,9 @@ VueRouter.prototype.replace = function (location, resolve, reject) {
   }
 };
 
-export default new VueRouter({
+let router = new VueRouter({
   routes,
-  
+
   // 滚动行为，跳转路由时，滚动条始终在最上方
   scrollBehavior(to, from, savedPosition) {
     // 始终滚动到顶部 top:0 不生效，写成 y:0 生效了
@@ -51,3 +52,36 @@ export default new VueRouter({
   },
 
 })
+
+// 路由导航守卫
+router.beforeEach(async (to, from, next) => {
+  let token = store.state.registerandlogin.token
+  let name = store.state.registerandlogin.userInfo.nickName
+  // 如果用户登录了
+  if (token) {
+    // 不能再通过导航地址跳转到登录页或注册页
+    if (to.path == '/login' || to.path == '/register') {
+      next('/home')
+    } else {
+      // 如果能获取到用户信息
+      if (name) {
+        next()
+      } else {
+        // 如果获取不到用户信息
+        try {
+          // 重新派发请求，获取用户信息
+          store.dispatch('GetUserInfo')
+          next()
+        } catch (error) {
+          // 派发请求失败，一般是token失效了，那么就要执行退出登录操作，清除token缓存
+          await store.dispatch('Logout')
+          next('/home')
+        }
+      }
+    }
+  } else {
+    next()
+  }
+})
+
+export default router
