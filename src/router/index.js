@@ -70,12 +70,12 @@ router.beforeEach(async (to, from, next) => {
         // 如果获取不到用户信息
         try {
           // 重新派发请求，获取用户信息
-          store.dispatch('GetUserInfo')
+          await store.dispatch('GetUserInfo')
           next()
         } catch (error) {
           // 派发请求失败，一般是token失效了，那么就要执行退出登录操作，清除token缓存
           await store.dispatch('Logout')
-          next('/home')
+          next('/login')
         }
       }
     }

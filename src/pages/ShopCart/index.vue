@@ -83,7 +83,7 @@
           <i class="summoney">{{totalPrice}}</i>
         </div>
         <div class="sumbtn">
-          <a class="sum-btn" href="###" target="_blank">结算</a>
+          <a class="sum-btn" @click="toTrade">结算</a>
         </div>
       </div>
     </div>
@@ -228,6 +228,10 @@ export default {
       }
     },
     
+    // 去结算页面
+    toTrade(){
+      this.$router.push('/trade')
+    }
   },
 };
 </script>

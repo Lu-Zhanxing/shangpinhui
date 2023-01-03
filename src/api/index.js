@@ -53,3 +53,8 @@ export const reqUserLogin = (data) => requests({url:"/user/passport/login",metho
 export const reqUserInfo = () => requests({url:"/user/passport/auth/getUserInfo",method:'get'})
 // 退出登录
 export const reqLogout = () => requests({url:'/user/passport/logout',method:'get'})
+
+// 结算交易页面--获取用户地址信息(这里需要用13700000000；111111登录才有数据)
+export const reqUserAddress = () => requests({url:'/user/userAddress/auth/findUserAddressList',method:'get'})
+// 结算交易页面--获取商品清单信息
+export const reqTradeGoodList = () => requests({url:'/order/auth/trade',method:'get'})
