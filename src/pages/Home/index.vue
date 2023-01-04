@@ -30,7 +30,7 @@ export default {
       Floor,
       Brand
     },
-    async mounted() {
+    mounted() {
       this.$store.dispatch('floorList')
 
     },

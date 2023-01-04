@@ -58,3 +58,8 @@ export const reqLogout = () => requests({url:'/user/passport/logout',method:'get
 export const reqUserAddress = () => requests({url:'/user/userAddress/auth/findUserAddressList',method:'get'})
 // 结算交易页面--获取商品清单信息
 export const reqTradeGoodList = () => requests({url:'/order/auth/trade',method:'get'})
+// 从这之后的数据不再存储在vuex仓库中了，先在main.js中统一引入，然后直接调用方法
+// 结算交易页面--提交订单信息
+export const reqSubmitOrder = (tradeNo,data) => requests({url:`/order/auth/submitOrder?tradeNo=${tradeNo}`,method:'post',data})
+// 订单支付页面--根据订单号获取订单支付信息
+export const reqPayment = (orderId) => requests({url:`/payment/weixin/createNative/${orderId}`,method:'get'})
