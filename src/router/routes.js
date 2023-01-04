@@ -9,6 +9,9 @@ import ShopCart from '@/pages/ShopCart'
 import Trade from '@/pages/Trade'
 import Pay from '@/pages/Pay'
 import PaySuccess from '@/pages/PaySuccess'
+import Center from '@/pages/Center'
+import MyOrder from '@/pages/Center/MyOrder'
+import GroupOrder from '@/pages/Center/GroupOrder'
 
 export default [
     {
@@ -66,6 +69,23 @@ export default [
         path: '/paysuccess',
         name: 'paysuccess',
         component: PaySuccess,
+        meta: { isShowFooter: true }
+    },
+    {
+        path: '/center',
+        name: 'center',
+        component: Center,
+        children:[
+            {
+                path:'myorder',
+                component: MyOrder
+            },
+            {
+                path:'grouporder',
+                component: GroupOrder
+            }
+        ],
+        redirect:'/center/myorder',
         meta: { isShowFooter: true }
     },
     //路由重定向，默认访问home页面
