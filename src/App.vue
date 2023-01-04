@@ -23,6 +23,10 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="less">
+// 解决支付页面使用element-ui弹出层的时候页面抖动的问题
+body{
+  overflow: hidden;
+  padding-right: 0!important;
+}
 </style>

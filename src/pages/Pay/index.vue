@@ -17,7 +17,7 @@
           >
           <span class="fr"
             ><em class="lead">应付金额：</em
-            ><em class="orange money">￥{{paymentInfo.totalFee}}</em></span
+            ><em class="orange money">￥{{ paymentInfo.totalFee }}</em></span
           >
         </div>
       </div>
@@ -76,7 +76,8 @@
         <div class="hr"></div>
 
         <div class="submit">
-          <router-link class="btn" to="/paysuccess">立即支付</router-link>
+          <!-- <router-link class="btn" to="/paysuccess">立即支付</router-link> -->
+          <a class="btn" @click="open">立即支付</a>
         </div>
         <div class="otherpay">
           <div class="step-tit">
@@ -93,11 +94,14 @@
 </template>
 
 <script>
+import QRCode from "qrcode";
 export default {
   name: "Pay",
   data() {
     return {
       paymentInfo: {},
+      timer: "",
+      code: "",
     };
   },
   computed: {
@@ -112,11 +116,63 @@ export default {
     // 获取订单支付信息
     async getPaymentInfo() {
       let result = await this.$API.reqPayment(this.orderId);
-      console.log(result);
       if (result.code == 200) {
         this.paymentInfo = result.data;
-      }else{
-        alert(result.message)
+      } else {
+        alert(result.message);
+      }
+    },
+    // 点击立即支付，弹出支付二维码弹框
+    async open() {
+      // qrcode生成二维码
+      let url = await QRCode.toDataURL(this.paymentInfo.codeUrl);
+      this.$alert(`<img src='${url}' />`, "请使用微信支付", {
+        dangerouslyUseHTMLString: true,
+        center: true,
+        showCancelButton: true,
+        cancelButtonText: "支付遇见问题",
+        confirmButtonText: "已支付成功",
+        showClose: false,
+        beforeClose: (action, instance, done) => {
+          if (action == "cancel") {
+            alert("请联系管理员，电话：XXX-XXXXXX");
+            // 清除定时器
+            clearInterval(this.timer);
+            this.timer = null;
+            // 关闭弹出层
+            done();
+          } else {
+            //判断是否真的支付了
+            //开发人员：为了自己方便，这里判断先不要了
+            // if (this.code == 200) {
+              // 清除定时器
+              clearInterval(this.timer);
+              this.timer = null;
+              // 关闭弹出层
+              done();
+              // 跳转页面
+              this.$router.push("/paysuccess");
+            // }
+          }
+        },
+      });
+
+      // 发请求查询支付订单状态
+      if (!this.timer) {
+        this.timer = setInterval(async () => {
+          let result = await this.$API.reqPayStatus(this.orderId);
+          if (result.code == 200) {
+            // 将状态码保存，以供后续点击支付成功按钮进行判断
+            this.code = result.code;
+            // 清除定时器
+            clearInterval(this.timer);
+            this.timer = null;
+            // 关闭弹出层
+            this.$msgbox.close();
+            // 跳转到支付成功页面
+            this.$router.push("/paysuccess");
+          }
+        }, 3000);
       }
     },
   },

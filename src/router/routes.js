@@ -8,6 +8,7 @@ import AddCartSuccess from '@/pages/AddCartSuccess'
 import ShopCart from '@/pages/ShopCart'
 import Trade from '@/pages/Trade'
 import Pay from '@/pages/Pay'
+import PaySuccess from '@/pages/PaySuccess'
 
 export default [
     {
@@ -59,6 +60,12 @@ export default [
         path: '/pay',
         name: 'pay',
         component: Pay,
+        meta: { isShowFooter: true }
+    },
+    {
+        path: '/paysuccess',
+        name: 'paysuccess',
+        component: PaySuccess,
         meta: { isShowFooter: true }
     },
     //路由重定向，默认访问home页面

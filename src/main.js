@@ -3,6 +3,10 @@ import App from './App.vue'
 import router from '@/router'
 import store from '@/store'
 import * as API from '@/api'
+import {Button,MessageBox} from 'element-ui'
+Vue.use(Button)
+Vue.prototype.$msgbox = MessageBox;
+Vue.prototype.$alert = MessageBox.alert;
 // 注册全局组件
 import TypeNav from '@/components/TypeNav'
 import Carousel from '@/components/Carousel'
