@@ -57,19 +57,40 @@ export default [
         path: '/trade',
         name: 'trade',
         component: Trade,
-        meta: { isShowFooter: true }
+        meta: { isShowFooter: true },
+        beforeEnter:(to,from,next) => {
+            if(from.path == '/shopcart'){
+                next()
+            }else{
+                next(false)
+            }
+        }
     },
     {
         path: '/pay',
         name: 'pay',
         component: Pay,
-        meta: { isShowFooter: true }
+        meta: { isShowFooter: true },
+        beforeEnter:(to,from,next) => {
+            if(from.path == '/trade'){
+                next()
+            }else{
+                next(false)
+            }
+        }
     },
     {
         path: '/paysuccess',
         name: 'paysuccess',
         component: PaySuccess,
-        meta: { isShowFooter: true }
+        meta: { isShowFooter: true },
+        beforeEnter:(to,from,next) => {
+            if(from.path == '/pay'){
+                next()
+            }else{
+                next(false)
+            }
+        }
     },
     {
         path: '/center',

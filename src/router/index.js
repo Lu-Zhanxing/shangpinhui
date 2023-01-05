@@ -82,6 +82,7 @@ router.beforeEach(async (to, from, next) => {
   } else {
     // 未登录访问,交易相关(trade),支付相关(pay、paysuccess)、用户中心(center)相关页面跳转到登录页面
     let toPath = to.path
+    // 提示:这里也通过路由元信息进行判断
     if(toPath.includes('/trade') || toPath.includes('/pay') || toPath.includes('/paysuccess') || toPath.includes('/center')){
       // sessionStorage.setItem('toPath',toPath)
       next('/login?redict='+toPath)
