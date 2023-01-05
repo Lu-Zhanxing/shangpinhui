@@ -80,7 +80,14 @@ router.beforeEach(async (to, from, next) => {
       }
     }
   } else {
-    next()
+    // 未登录访问,交易相关(trade),支付相关(pay、paysuccess)、用户中心(center)相关页面跳转到登录页面
+    let toPath = to.path
+    if(toPath.includes('/trade') || toPath.includes('/pay') || toPath.includes('/paysuccess') || toPath.includes('/center')){
+      // sessionStorage.setItem('toPath',toPath)
+      next('/login?redict='+toPath)
+    }else{
+      next()
+    }
   }
 })
 

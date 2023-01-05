@@ -81,7 +81,10 @@
         if(phone && password){
           try {
             await this.$store.dispatch('UserLogin',{phone,password})
-            this.$router.push('/home')
+            // let path = sessionStorage.getItem('toPath') || '/home'
+            let path = this.$route.query.redict || '/home'
+            console.log(path)
+            this.$router.push(path)
           } catch (error) {
             alert(error.message)
           }

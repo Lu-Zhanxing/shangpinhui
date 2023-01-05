@@ -159,7 +159,8 @@ export default {
         this.myOrderList = result.data;
       }
     },
-    // 获取当前点击的那一页
+    // 获取当前点击的那一页(这里是子传父自定义事件)
+    // page是从子组件分页组件中传递过来的数据
     getPageNo(page){
       this.page = page
       this.getMyOrderList()
