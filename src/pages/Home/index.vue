@@ -32,7 +32,6 @@ export default {
     },
     mounted() {
       this.$store.dispatch('floorList')
-
     },
     computed: {
       ...mapState({floorList:(state) => state.home.floorList})

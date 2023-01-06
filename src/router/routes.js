@@ -1,5 +1,6 @@
 //注意：这里引入的直接到文件夹Home，而不是具体的文件Home/index.vue
-import Home from '@/pages/Home'
+// import Home from '@/pages/Home'
+const Home = () => import('@/pages/Home')  //路由懒加载
 import Search from '@/pages/Search'
 import Login from '@/pages/Login'
 import Register from '@/pages/Register'

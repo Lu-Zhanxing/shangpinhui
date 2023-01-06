@@ -50,9 +50,8 @@
               >
                 <div class="list-wrap">
                   <div class="p-img" @click="toDetail(goods.id)">
-                    <a>
-                      <img :src="goods.defaultImg"
-                    /></a>
+                    <!-- <a><img :src="goods.defaultImg" /></a> -->
+                    <a><img v-lazy="goods.defaultImg" /></a>
                   </div>
                   <div class="price">
                     <strong>

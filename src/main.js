@@ -14,6 +14,13 @@ import Pagination from '@/components/pagination'
 Vue.component(TypeNav.name,TypeNav)
 Vue.component(Carousel.name,Carousel)
 Vue.component(Pagination.name,Pagination)
+// 引入懒加载插件
+import VueLazyload from 'vue-lazyload'
+import img from '@/assets/logo.png'
+// const img = require('@/assets/logo.png')
+Vue.use(VueLazyload,{
+  loading: img,
+})
 
 
 Vue.config.productionTip = false
